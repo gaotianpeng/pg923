@@ -1,0 +1,10 @@
+config.log
+config.status
+GNUmakefile
+*.o
+*.txt
+*.so
+*.so.*
+*.a
+
+.vscode/settings.json
