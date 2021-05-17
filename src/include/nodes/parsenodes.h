@@ -683,7 +683,13 @@ typedef enum RTEKind
 	RTE_VALUES,					/* VALUES (<exprlist>), (<exprlist>), ... */
 	RTE_CTE						/* common table expr (WITH list element) */
 } RTEKind;
-
+/*
+	范围表(RangeTblEntry)是Query结构体的的一个成员(List* rtable)
+	是在语法分析模块SQL查询语句解析后，得到的查询对象的信息
+	表示的是查询对象，或是一个普通的关系(a plain relation),或是一个FROM子句中出现的子查询
+	或是连接子句的连接结果
+	范围表是实体表在查询优化阶段的被查询对象
+*/
 typedef struct RangeTblEntry
 {
 	NodeTag		type;

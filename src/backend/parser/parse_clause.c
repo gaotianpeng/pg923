@@ -118,7 +118,7 @@ transformFromClause(ParseState *pstate, List *frmList)
 	 * entries to the rtable), check for duplicate refnames, and then add it
 	 * to the joinlist and namespaces.
 	 */
-	foreach(fl, frmList)
+	foreach(fl, frmList)	// 遍历处理 fromList 中的每个元素
 	{
 		Node	   *n = lfirst(fl);
 		RangeTblEntry *rte;
@@ -130,7 +130,7 @@ transformFromClause(ParseState *pstate, List *frmList)
 									&rte,
 									&rtindex,
 									&relnamespace,
-									&containedRels);
+									&containedRels); // 处理 fromList 中的某一项
 		checkNameSpaceConflicts(pstate, pstate->p_relnamespace, relnamespace);
 		pstate->p_joinlist = lappend(pstate->p_joinlist, n);
 		pstate->p_relnamespace = list_concat(pstate->p_relnamespace,

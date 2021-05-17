@@ -31,6 +31,10 @@
  *
  * Returns a list of raw (un-analyzed) parse trees.
  */
+/*
+	经过词法分析(scan.l)、语法分析(gram.y)
+	得到一棵或多棵原始语法树(raw abstract syntax tree)
+*/
 List *
 raw_parser(const char *str)
 {

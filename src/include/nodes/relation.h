@@ -146,6 +146,11 @@ typedef struct PlannerInfo
 	 * rt_fetch(), which can be a bit slow once large inheritance sets have
 	 * been expanded.
 	 */
+	/*
+		为了求解最优查询访问路径，需要记录查询语句中涉及的所有基表信息
+		并以此为基础构建所有有效的可行解(基表间的连接信息)
+		simple_rte_array 记录了所有的基表信息(RangeTblEntry)
+	*/
 	RangeTblEntry **simple_rte_array;	/* rangetable as an array */
 
 	/*
@@ -164,6 +169,11 @@ typedef struct PlannerInfo
 	 * even when using the hash table for lookups; this simplifies life for
 	 * GEQO.
 	 */
+	/*
+		join_rel_list为本轮优化过程中所有存在可能连接关系(Join)的基表RelOptInfo
+		对于有几个基表的小规模问题，可以通过join_rel_list来进行查找计算
+		对于大规模的问题引入Hash Table：join_rel_hash来加速查找过程
+	*/
 	List	   *join_rel_list;	/* list of join-relation RelOptInfos */
 	struct HTAB *join_rel_hash; /* optional hashtable for join relations */
 
@@ -390,7 +400,11 @@ typedef enum RelOptKind
 	RELOPT_OTHER_MEMBER_REL,
 	RELOPT_DEADREL
 } RelOptKind;
-
+/*
+	关系优化信息(RelOptInfo结构体)是PlannerInfo结构体的两个成员(simple_rel_array和join_rel_list)，
+	是查询优化器在优化阶段的操作对象，其值对应的类型可以是普通的关系、
+	子查询的输出结果、函数、索引，或者是连接的输出结果等，可以认为是一个虚拟的“关系”
+*/
 typedef struct RelOptInfo
 {
 	NodeTag		type;

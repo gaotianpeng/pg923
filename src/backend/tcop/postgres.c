@@ -593,6 +593,10 @@ pg_parse_query(const char *query_string)
  *
  * NOTE: for reasons mentioned above, this must be separate from raw parsing.
  */
+/*
+	1 对原始语法树进行分析转换成查询语法树
+	2 对查询语法树进行重写
+*/
 List *
 pg_analyze_and_rewrite(Node *parsetree, const char *query_string,
 					   Oid *paramTypes, int numParams)
@@ -678,6 +682,10 @@ pg_analyze_and_rewrite_params(Node *parsetree,
  * Note: query must just have come from the parser, because we do not do
  * AcquireRewriteLocks() on it.
  */
+/*
+	依据现有的规则系统对语法树进行相应的改写
+	规则系统描述了当一定的事件发生时，系统所采取的操作行为
+*/
 static List *
 pg_rewrite_query(Query *query)
 {
@@ -789,6 +797,13 @@ pg_plan_query(Query *querytree, int cursorOptions, ParamListInfo boundParams)
  * Normal optimizable statements generate PlannedStmt entries in the result
  * list.  Utility statements are simply represented by their statement nodes.
  */
+/*
+查询优化过程
+	1 识别存在的可能优化点
+	2 执行优化操作
+	3 产生所有有效的查询计划
+	4 选择最优查询计划
+*/
 List *
 pg_plan_queries(List *querytrees, int cursorOptions, ParamListInfo boundParams)
 {

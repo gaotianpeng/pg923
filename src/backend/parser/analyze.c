@@ -83,6 +83,9 @@ static void transformLockingClause(ParseState *pstate, Query *qry,
  * transformation, while utility-type statements are simply hung off
  * a dummy CMD_UTILITY Query node.
  */
+/*
+	以原始语法树作为输入参数并以查询树(Query类型)作为函数的输出结果
+*/
 Query *
 parse_analyze(Node *parseTree, const char *sourceText,
 			  Oid *paramTypes, int numParams)
@@ -175,6 +178,7 @@ parse_sub_analyze(Node *parseTree, ParseState *parentParseState,
 Query *
 transformTopLevelStmt(ParseState *pstate, Node *parseTree)
 {
+	// 处理 select ... into 情况
 	if (IsA(parseTree, SelectStmt))
 	{
 		SelectStmt *stmt = (SelectStmt *) parseTree;
